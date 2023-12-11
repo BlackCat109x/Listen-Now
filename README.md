@@ -1,4 +1,4 @@
-﻿# Music Player and Complements
+﻿# Listen Now - Music Player and Complements
 
 ![Python](https://img.shields.io/badge/Python-3.11%2B-blue) ![Platform](https://img.shields.io/badge/Platform-Windows-green) ![Language](https://img.shields.io/badge/Language-Spanish-orange) ![License](https://img.shields.io/badge/License-GNU%20v3.0-blue)
 
