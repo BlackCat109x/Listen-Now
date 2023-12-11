@@ -2,8 +2,6 @@ import os
 import youtube_dl
 from scripts.downloader import YTtoMP3Downloader
 from scripts.get_md import MusicMetadata
-from scripts.metadata_editor import MP3MetadataEditor
-from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime
 
 

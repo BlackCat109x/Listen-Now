@@ -1,0 +1,9 @@
+pytube==15.0.0
+pydub==0.25.1
+requests==2.31.0
+tqdm==4.66.1
+youtube_dl==2021.12.17
+eyed3==0.9.7
+tkinter==0.1.0
+pygame==2.5.2
+Pillow==10.0.0

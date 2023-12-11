@@ -1,6 +1,6 @@
 ﻿# Music Player and Complements
 
-![Python](https://img.shields.io/badge/Python-3.8%2B-blue) ![Platform](https://img.shields.io/badge/Platform-Windows-green) ![Language](https://img.shields.io/badge/Language-Spanish-orange) ![License](https://img.shields.io/badge/License-GNU%20v3.0-blue)
+![Python](https://img.shields.io/badge/Python-3.11%2B-blue) ![Platform](https://img.shields.io/badge/Platform-Windows-green) ![Language](https://img.shields.io/badge/Language-Spanish-orange) ![License](https://img.shields.io/badge/License-GNU%20v3.0-blue)
 
 ## Overview
 
@@ -63,40 +63,20 @@ Follow the on-screen instructions for each application to maximize your experien
 
 ### YouTube to MP3 Downloader
 
+`cd '.\Music Player\'`
 `pyinstaller --onefile --noconsole --add-data "scripts;scripts" --name 'YT to MP3' main.py` 
 
 ### Playlist Downloader
 
+`cd .\Downloader\`
 `pyinstaller --onefile --console --add-data "scripts;scripts" --name 'Download a Playlist' playlist.py` 
 
 ### MP3 Music Player
 
+`cd .\Downloader\`
 `pyinstaller --onefile --add-data "assets;assets" --noconsole --icon="./assets/img/icon.ico" --name "Listen Now - Music Player" main.py` 
 
 Follow these commands to build each application using PyInstaller. Adjust the paths and filenames as needed for your project.
-
-## Usage
-
-1.  Launch the MP3 Music Player application.
-    
-    bashCopy code
-    
-    `./Listen\ Now\ -\ Music\ Player.exe` 
-    
-2.  Run the YouTube to MP3 Downloader.
-    
-    bashCopy code
-    
-    `./YT\ to\ MP3.exe` 
-    
-3.  Execute the Album/Playlist Downloader script.
-    
-    bashCopy code
-    
-    `./Download\ a\ Playlist.exe` 
-    
-
-Follow the on-screen instructions for each application to maximize your experience.
 
 ## Contributing
 
