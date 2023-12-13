@@ -1,30 +1,17 @@
 import os
 import tkinter as tk
-from tkinter import ttk, filedialog
+from tkinter import ttk, filedialog, messagebox
 import eyed3
 from scripts.get_md import MusicMetadata
 from scripts.downloader import YTtoMP3Downloader
 from scripts.metadata_editor import MP3MetadataEditor
-
 from urllib.parse import urlparse, parse_qs, urlunparse
-
-def conservar_parametro_watch(url):
-    parsed_url = urlparse(url)
-    parametros = parse_qs(parsed_url.query)
-
-    # Conservar solo el parámetro "watch" y su contenido
-    nuevo_query = "watch=" + parametros.get('watch', [''])[0]
-
-    # Crear una nueva URL con solo el parámetro "watch"
-    nueva_url = urlunparse(parsed_url._replace(query=nuevo_query))
-
-    return nueva_url
 
 class YTtoMP3App:
     def __init__(self, master):
         self.master = master
         self.master.resizable(False, False)
-        self.master.title("YT to MP3 Converter and Editor")
+        self.master.title("Convertidor de YT a MP3")
         self.cover_path = None
 
         self.create_widgets()
@@ -66,7 +53,9 @@ class YTtoMP3App:
             setattr(self, f"{entry}_entry", entry_widget)
 
             if command:
-                ttk.Button(edit_frame, text=f"Seleccionar {label_text}", command=command).grid(row=row, column=2, padx=10, pady=10)
+                button = ttk.Button(edit_frame, text=f"Seleccionar {label_text}", command=command)
+                button.grid(row=row, column=2, padx=10, pady=10)
+                setattr(self, f"{entry}_button", button)
 
         ttk.Button(edit_frame, text="Guardar", command=self.save_metadata).grid(row=row+2, column=0, columnspan=3, pady=10)
 
@@ -108,10 +97,20 @@ class YTtoMP3App:
             self.year_entry.insert(tk.END, year_value)
 
     def download_and_convert(self):
-        url = self.url_entry.get()
+        url = self.del_params(self.url_entry.get())
+        title = MusicMetadata().get_md(url).get('title')
         if url:
-            downloader = YTtoMP3Downloader(url)
+            downloader = YTtoMP3Downloader(url, 'file')
             downloader.download('Music Downloader')
+
+            if title == 'Unknown Title':
+                messagebox.showwarning('Completado', 'El archivo se ha descargado y convertido con exito. Pero los metadatos de esta canción y su portada no estan disponibles en su url.')
+                self.url_cover_button.config(state='disabled')
+                self.url_meta_button.config(state='disabled')
+            else:
+                messagebox.showinfo('Completado', f'{title} se ha descargado con exito')
+                self.url_cover_button.config(state="normal")
+                self.url_meta_button.config(state="normal")
 
             self.file_path_entry.config(state="normal")
             self.file_path_entry.delete(0, tk.END)
@@ -132,7 +131,7 @@ class YTtoMP3App:
         return new_url
         
     def browse_file(self):
-        file_path = filedialog.askopenfilename(filetypes=[("Audio files", "*.mp3;*.wav")])
+        file_path = filedialog.askopenfilename(filetypes=[("Archivos de audio", "*.mp3;*.wav")])
         if file_path:
             metadata = self.load_metadata(file_path)
 
@@ -164,7 +163,7 @@ class YTtoMP3App:
                 self.year_entry.insert(tk.END, year_value)
 
     def browse_cover(self):
-        cover_path = filedialog.askopenfilename(filetypes=[("Image files", "*.png;*.jpg;*.jpeg")])
+        cover_path = filedialog.askopenfilename(filetypes=[("Archivos de imagen", "*.png;*.jpg;*.jpeg")])
         self.cover_path_entry.config(state="normal")
         self.cover_path_entry.delete(0, tk.END)
         self.cover_path_entry.insert(0, cover_path)
@@ -183,6 +182,8 @@ class YTtoMP3App:
         
         if self.cover_path:
             os.remove(self.cover_path)
+
+        messagebox.showinfo('Completado', 'Los datos fueron aplicados correctamente')
 
     def load_metadata(self, file_path):
         try:

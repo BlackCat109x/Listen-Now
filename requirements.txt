@@ -7,3 +7,4 @@ eyed3==0.9.7
 tkinter==0.1.0
 pygame==2.5.2
 Pillow==10.0.0
+colorama==0.4.6

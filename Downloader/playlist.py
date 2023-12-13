@@ -5,6 +5,7 @@ from scripts.get_md import MusicMetadata
 from datetime import datetime
 
 
+
 class PlaylistDownloader:
     def __init__(self, playlist_url=""):
         self.playlist_url = playlist_url
@@ -13,15 +14,16 @@ class PlaylistDownloader:
         self.startTime = datetime.now()
 
     def download_playlist(self):
+
         video_urls = self.get_video_urls()
         playlist_title = self.get_title(self.playlist_url)
         print()
         self.startTime = datetime.now()
-        YTtoMP3Downloader().download_playlist(video_urls, playlist_title)
-        os.system('cls')
-        print(f'La playlist fue descargada en: {datetime.now() - self.startTime}')
-        print('Presione enter para salir...')
-        input()
+        YTtoMP3Downloader(resource='playlist').download_playlist(video_urls, playlist_title)
+        # os.system('cls')
+        # print(f'La playlist fue descargada en: {datetime.now() - self.startTime}')
+        # print('Presione enter para salir...')
+        # input()
 
     def get_title(self, playlist_url):
         options = {
