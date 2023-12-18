@@ -94,4 +94,4 @@ This project is licensed under the [GNU General Public License v3.0](https://cha
 
 ----------
 
-¡Gracias por usar Music Player and Complements! Si tienes alguna pregunta o sugerencia, no dudes en ponerte en contacto con nosotros. ¡Disfruta de tu experiencia musical!
+¡Gracias por usar Listen Now - Music Player! Si tienes alguna pregunta o sugerencia, no dudes en ponerte en contacto con nosotros. ¡Disfruta de tu experiencia musical!
