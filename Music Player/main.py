@@ -135,11 +135,11 @@ class MusicPlayer:
 
     def extract_metadata(self, file_path):
         audiofile = eyed3.load(file_path)
-        title = audiofile.tag.title if audiofile.tag and audiofile.tag.title else "Desconocido"
-        authors = audiofile.tag.artist.split(",") if audiofile.tag and audiofile.tag.artist else ["Desconocido"]
+        title = audiofile.tag.title if audiofile.tag and audiofile.tag.title else ""
+        authors = audiofile.tag.artist.split(",") if audiofile.tag and audiofile.tag.artist else [""]
         author = authors[0].strip()
-        album = audiofile.tag.album if audiofile.tag and audiofile.tag.album else "Desconocido"
-        year = str(audiofile.tag.getBestDate()) if audiofile.tag and audiofile.tag.getBestDate() else "Desconocido"
+        album = audiofile.tag.album if audiofile.tag and audiofile.tag.album else ""
+        year = str(audiofile.tag.getBestDate()) if audiofile.tag and audiofile.tag.getBestDate() else ""
     
         title = self.truncate_with_ellipsis(title, 22)
         author = self.truncate_with_ellipsis(author, 15)
@@ -245,11 +245,15 @@ class MusicPlayer:
             file_path = self.playlist[self.current_index]
             file_name = os.path.splitext(os.path.basename(file_path))[0]
             title, author, album, year = self.extract_metadata(file_path)
-
-            first_line = f"{title} • {author}"
-            second_line = f"{album} • {year}"
-            self.title_label.config(text=first_line)
-            self.album_label.config(text=second_line)
+            
+            if title and author and album and year:
+                first_line = f"{title} • {author}"
+                second_line = f"{album} • {year}"
+                self.title_label.config(text=first_line)
+                self.album_label.config(text=second_line)
+            else:
+                self.title_label.config(text=file_name)
+                self.album_label.config(text="Sin datos")
 
             self.load_song_image(file_path)
 
