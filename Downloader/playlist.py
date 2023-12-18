@@ -20,10 +20,6 @@ class PlaylistDownloader:
         print()
         self.startTime = datetime.now()
         YTtoMP3Downloader(resource='playlist').download_playlist(video_urls, playlist_title)
-        # os.system('cls')
-        # print(f'La playlist fue descargada en: {datetime.now() - self.startTime}')
-        # print('Presione enter para salir...')
-        # input()
 
     def get_title(self, playlist_url):
         options = {
@@ -72,3 +68,4 @@ if __name__ == "__main__":
     playlist_url = input('Playlist URL: ')
     print()
     PlaylistDownloader(playlist_url).download_playlist()
+    input()

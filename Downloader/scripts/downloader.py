@@ -8,7 +8,6 @@ import re
 from tqdm import tqdm
 from tkinter import messagebox
 import colorama
-from colorama import Fore, Style
 
 class YTtoMP3Downloader:
     def __init__(self, url='', resource=''):
@@ -27,8 +26,9 @@ class YTtoMP3Downloader:
         red = self.get_ansi('#ff3636')
         blue = self.get_ansi('#92a1f7')
         reset_color = '\033[0m'
+        self.downloaded = []
         try:
-            base_path = os.path.join(os.path.expanduser("~"), "Downloads")
+            base_path = os.path.join(os.path.expanduser("~"), "Music")
             base_path = os.path.abspath(base_path)
             if os.path.isabs(a):
                 folder = a
@@ -38,8 +38,9 @@ class YTtoMP3Downloader:
             yt = YouTube(self.url)
             video = yt.streams.filter(only_audio=True).first()
 
+            video_author =  re.sub(r'''[<>:"'/\\|?*,.]''', '', yt.author)
             video_title = re.sub(r'''[<>:"'/\\|?*,.]''', '', video.title)
-            mp3_file = os.path.join(folder, f"{video_title}.mp3")
+            mp3_file = os.path.join(folder, f"{video_title} - {video_author}.mp3")
             
             if os.path.exists(mp3_file):
                 if self.resource == 'playlist':
@@ -55,7 +56,7 @@ class YTtoMP3Downloader:
 
             video.download(folder)
 
-            f_path = self.convert(file)
+            f_path = self.convert(file, video_author)
 
             if self.resource == 'playlist':
                 tqdm.write(f'Completado\n')
@@ -69,9 +70,9 @@ class YTtoMP3Downloader:
             elif self.resource == 'file':
                 messagebox.showerror('Error', f"Error durante la descarga: {e}")
 
-    def convert(self, file):
+    def convert(self, file, author):
         try:
-            name = os.path.splitext(os.path.basename(file))[0] + ".mp3"
+            name = os.path.splitext(os.path.basename(file))[0] + f" - {author}.mp3"
             self.path = os.path.join(os.path.dirname(file), name)
             audio = AudioSegment.from_file(file)
             audio.export(self.path, format="mp3")
@@ -86,7 +87,7 @@ class YTtoMP3Downloader:
                 messagebox.showerror('Error', f"Error durante la conversión: {e}")
 
     def download_cover(self, cover_url, dw_file, a):
-        base_path = os.path.join(os.path.expanduser("~"), "Downloads")
+        base_path = os.path.join(os.path.expanduser("~"), "Music")
         base_path = os.path.abspath(base_path)
         save_path = os.path.join(base_path, a)
         if cover_url:
@@ -104,7 +105,7 @@ class YTtoMP3Downloader:
             return None
 
     def download_playlist(self, videos, playlist_title):
-        base_path = os.path.join(os.path.expanduser("~"), "Downloads")
+        base_path = os.path.join(os.path.expanduser("~"), "Music")
 
         colorama.init()
         green = self.get_ansi('#92f7b2')
